@@ -70,7 +70,7 @@ def get_recording(start_date, next_date):
 					record['recording_start'].replace(':','-')
 				)
 	else
-		print("No meetings in", url) 
+		print("No meetings in: ", url) 
 
 
 def download_recording(download_url, filename):
