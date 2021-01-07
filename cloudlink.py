@@ -59,7 +59,7 @@ def get_recording(start_date, next_date):
 	# print(data['from'])
 	# print(data['to'])
 	
-	if 'meetings' in data.keys()
+	if 'meetings' in data:
 		for meeting in data['meetings']:
 			for record in meeting['recording_files']:
 				if record['status'] != 'completed':
@@ -69,7 +69,7 @@ def get_recording(start_date, next_date):
 					record['download_url'], 
 					record['recording_start'].replace(':','-')
 				)
-	else
+	else:
 		print("No meetings in: ", url) 
 
 
