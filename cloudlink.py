@@ -58,16 +58,19 @@ def get_recording(start_date, next_date):
 	# print(len(data['meetings']))
 	# print(data['from'])
 	# print(data['to'])
+	
+	if 'meetings' in data.keys()
+		for meeting in data['meetings']:
+			for record in meeting['recording_files']:
+				if record['status'] != 'completed':
+					continue
 
-	for meeting in data['meetings']:
-		for record in meeting['recording_files']:
-			if record['status'] != 'completed':
-				continue
-
-			download_recording(
-				record['download_url'], 
-				record['recording_start'].replace(':','-')
-			)
+				download_recording(
+					record['download_url'], 
+					record['recording_start'].replace(':','-')
+				)
+	else
+		print("No meetings in", url) 
 
 
 def download_recording(download_url, filename):
