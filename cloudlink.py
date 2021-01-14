@@ -1,22 +1,20 @@
-import requests 
+import requests
 import datetime
 
-# Put your JWT token that you get from https://marketplace.zoom.us/ here. 
-JWT = '##########'
+JWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IjdZVzRJODB3Um8ySVJiQVZFUG9rSnciLCJleHAiOjE2NDI1MzU3NjAsImlhdCI6MTYxMDM5NTAyMn0.Kq2mrMvPrc8Ybeqlh-7x4awRak-BiKWSEztFBJTzers'
 
-# Put your USER ID that you get from the API. 
-USERID = '##########'
-
+# Put your USER ID that you get from the API.
+USERID = 'vBmFSXYwQcCkjmRTGIasKw'
 
 headers = {
-		'Authorization': 
+		'Authorization':
 		'Bearer {}'.format(JWT),
 		'content-type':
 		'application/json',
 	}
 
 # Put your own download path here, I used an external hard drive so mine will differ from yours
-PATH = '/Volumes/Ext3/Zoom/'
+PATH = '/Users/nicky/zoomdl'
 
 
 
@@ -37,7 +35,7 @@ def main():
 
 
 def get_recording(start_date, next_date):
-	
+
 	date_string = '%Y-%m-%d'
 	url = 'https://api.zoom.us/v2/users/{}/recordings?from={}&to={}&page_size=300&'.format(
 				USERID,
@@ -58,7 +56,7 @@ def get_recording(start_date, next_date):
 	# print(len(data['meetings']))
 	# print(data['from'])
 	# print(data['to'])
-	
+
 	if 'meetings' in data:
 		for meeting in data['meetings']:
 			for record in meeting['recording_files']:
@@ -66,29 +64,23 @@ def get_recording(start_date, next_date):
 					continue
 
 				download_recording(
-					record['download_url'], 
+					record['download_url'],
 					record['recording_start'].replace(':','-')
 				)
 	else:
-		print("No meetings in: ", url) 
+		print("No meetings in: ", url)
 
 
 def download_recording(download_url, filename):
 	print(download_url)
 	download_access_url = '{}?access_token={}'.format(download_url, JWT)
-	print(download_access_url)
 	response = requests.get(download_access_url, stream=True)
 	local_filename = '{}{}.mp4'.format(PATH, filename)
 
 	with open(local_filename, 'wb') as f:
 		for chunk in response.iter_content(chunk_size=8192):
-			print (len(chunk))
 			f.write(chunk)
 
-	   
+
 if __name__ == '__main__':
 	main()
-
-
-
-
